@@ -17,23 +17,27 @@ from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.views.generic.base import TemplateView
 
 from travel_agency_app import views as travel_agency_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', travel_agency_views.ExploreCreateView.as_view(), name='index'),
-    path('login/', travel_agency_views.LoginView.as_view(), name="login"),
-    path('logout/', travel_agency_views.LogoutView.as_view(), name="logout"),
+    # path('accounts/', include('travel_agency_app.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('signup/', travel_agency_views.SignUpView.as_view(), name='signup'),
+    path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    # path('login/', travel_agency_views.LoginView.as_view(), name="login"),
+    # path('logout/', travel_agency_views.LogoutView.as_view(), name="logout"),
     path('hotels/', travel_agency_views.HotelView.as_view(), name="hotels"),
     path('hotel/add', travel_agency_views.HotelCreateView.as_view(), name='create-hotel'),
     # path('city-hotels/<int:id>/', travel_agency_views.HotelCityView.as_view(), name="hotels-city"),
     # url(r'^hotels/(?P<city>[-a-zA-Z0-9_]+)/$', travel_agency_views.HotelCityView.as_view(), name="hotels-city"),
     path('hotel/<int:pk>/', travel_agency_views.HotelDetailsView.as_view(), name='hotel-details'),
     path('hotel/<int:id>/reserve/', travel_agency_views.ReserveHotelRoom.as_view(), name='hotel-reservation'),
-    path('add-user/', travel_agency_views.AddUserView.as_view(), name='add-user'),
-    path('list-users/', travel_agency_views.UserListView.as_view(), name='user-list-view'),
+    # path('add-user/', travel_agency_views.AddUserView.as_view(), name='add-user'),
+    path('users-list/', travel_agency_views.UserListView.as_view(), name='user-list-view'),
     path('flight/add', travel_agency_views.FlightCreateView.as_view(), name='create-flight'),
     path('travelove/', travel_agency_views.ExploreCreateView.as_view(), name='explore'),
     path('user-hotel-reservations/<int:pk>/', travel_agency_views.UserHotelReservationView.as_view(), name='user-hotel'),

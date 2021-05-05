@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
+Users list:
     <ul>
         {% for user in user_list %}
-            <li>{{ user.username }} || {{ user.last_name }} || {{ user.email }}</li>
+            <li>ID: {{ user.id }} || username: {{ user.username }} || is_superuser: {{ user.is_superuser }}</li>
         {% endfor %}
     </ul>
 <br>
-<a href="{% url 'hotels' %}">Hotels list</a>
+<a href="{% url 'hotels' %}">Hotels list</a><br>
+<a href="{% url 'explore' %}">Go back to the home page</a>
 {% endblock %}

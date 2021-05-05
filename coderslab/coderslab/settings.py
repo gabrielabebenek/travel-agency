@@ -133,6 +133,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-LOGIN_URL = '/login'     # this should coinside with url pattern of login view
-LOGOUT_URL = '/logout'   # same but for logout view
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'home'     # this should coinside with url pattern of login view
+LOGOUT_REDIRECT_URL = 'home'   # same but for logout view
+
+# AUTH_USER_MODEL = 'accounts.CustomUser'

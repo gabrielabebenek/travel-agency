@@ -1,3 +1,5 @@
+
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -12,6 +14,10 @@ from django.db import models
     #
     # def __str__(self):
     #     return self.username
+
+# class CustomUser(AbstractUser):
+#     def __str__(self):
+#         return self.username
 
 
 class Hotel(models.Model):
@@ -52,6 +58,7 @@ ROOM_TYPE = (
 
 
 class HotelBooking(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, null=True, blank=True)
     # user = models.ManyToManyField(User, through="UserHotel")
     # user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -78,7 +85,7 @@ CLASS_TYPE = (
 
 
 class Flight(models.Model):
-    # user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     fromCountry = models.CharField(max_length=64, default='Poland')
     fromCity = models.CharField(max_length=64, default='Warsaw')
     toCountry = models.CharField(max_length=64, default='Indonesia')

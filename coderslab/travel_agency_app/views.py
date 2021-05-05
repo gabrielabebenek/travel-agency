@@ -1,12 +1,15 @@
 from django.contrib.auth import get_user_model, logout
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.shortcuts import render, redirect
+from django.views import generic
 from django.views.generic import (
     ListView,
     CreateView,
     DetailView,
     FormView,
     RedirectView,
+    CreateView,
 )
 from django.urls import reverse_lazy, reverse
 from .forms import (
@@ -26,50 +29,54 @@ from .models import (
 User = get_user_model()
 
 
-class LoginView(LoginRequiredMixin, FormView):
-    login_url = '/login/'
-    form_class = LoginForm
-    template_name = 'travel_agency_app/loginuser.html'
-    success_url = reverse_lazy('index')
-    permission_required = 'auth.change_user'
+# class LoginView(LoginRequiredMixin, FormView):
+#     login_url = '/login/'
+#     form_class = LoginForm
+#     template_name = 'travel_agency_app/loginuser.html'
+#     success_url = reverse_lazy('index')
+#     permission_required = 'auth.change_user'
+#
+#     def form_valid(self, form):
+#         form.login(self.request)
+#         return super().form_valid(form)
+#
+#
+# class LogoutView(RedirectView):
+#     url = reverse_lazy('index')
+#
+#     def get(self, request, *args, **kwargs):
+#         logout(request)
+#         return super().get(request, *args, **kwargs)
 
-    def form_valid(self, form):
-        form.login(self.request)
-        return super().form_valid(form)
+# class AddUserView(CreateView):
+#     model = User
+#     form_class = AddUserForm
+#     template_name = 'adduser.html'
+#     success_url = reverse_lazy('user-list-view')
+#
+#
+class SignUpView(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'registration/signup.html'
 
 
-class LogoutView(RedirectView):
-    url = reverse_lazy('index')
-
-    def get(self, request, *args, **kwargs):
-        logout(request)
-        return super().get(request, *args, **kwargs)
-
-class AddUserView(CreateView):
+class UserListView(LoginRequiredMixin, ListView):
     model = User
-    form_class = AddUserForm
-    template_name = 'adduser.html'
-    success_url = reverse_lazy('user-list-view')
+    template_name = 'user_list.html'
 
 
-class UserListView(ListView):
-    model = User
-
-
-class HotelView(ListView):
+class HotelView(LoginRequiredMixin, ListView):
     model = Hotel
 
-    # def get_context_data(self, **kwargs):
-    #     hotels = Hotel.objects.filter(city=self.kwargs['city'])
 
-
-class HotelCreateView(CreateView):
+class HotelCreateView(LoginRequiredMixin, CreateView):
     model = Hotel
     form_class = HotelForm
     success_url = reverse_lazy('hotels')
 
 
-class HotelDetailsView(DetailView):
+class HotelDetailsView(LoginRequiredMixin, DetailView):
     model = Hotel
     template_name = "view_hotel.html"
     pk_url_kwarg = 'pk'
@@ -80,7 +87,7 @@ class HotelDetailsView(DetailView):
         return super().get_context_data(**context)
 
 
-class ExploreCreateView(CreateView):
+class ExploreCreateView(LoginRequiredMixin, CreateView):
     model = Explore
     form_class = ExploreForm
     template_name = 'explore.html'
@@ -97,13 +104,13 @@ class ExploreCreateView(CreateView):
             city = form.cleaned_data['city']
             if bookingType == "Hotel":
                 response = redirect('hotels')
-                response['Location'] += '?city=' + city
+                # response['Location'] += '?city=' + city
                 return response
             elif bookingType == "Flight":
                 return redirect('create-flight')
 
 
-class ReserveHotelRoom(CreateView):
+class ReserveHotelRoom(LoginRequiredMixin, CreateView):
     model = HotelBooking
     form_class = ReserveHotelRoomForm
     template_name = 'reserve_hotel_room2.html'
@@ -116,7 +123,7 @@ class ReserveHotelRoom(CreateView):
         return kwargs
 
 
-class FlightCreateView(CreateView):
+class FlightCreateView(LoginRequiredMixin, CreateView):
     model = Flight
     form_class = FlightForm
     template_name = 'flight.html'
@@ -129,7 +136,7 @@ class FlightCreateView(CreateView):
         return kwargs
 
 
-class UserHotelReservationView(DetailView):
+class UserHotelReservationView(LoginRequiredMixin, DetailView):
     model = HotelBooking
     template_name = "userhotel_list.html"
     pk_url_kwarg = 'pk'
@@ -144,7 +151,7 @@ class UserHotelReservationView(DetailView):
     #     return render(request, "userhotel_list.html", context={"hotel": hotel, "reservations": reservations})
 
 
-class UserFlightReservationView(DetailView):
+class UserFlightReservationView(LoginRequiredMixin, DetailView):
     model = Flight
     template_name = "userflight_list.html"
     pk_url_kwarg = 'pk'
@@ -155,11 +162,10 @@ class UserFlightReservationView(DetailView):
         return super().get_context_data(**context)
 
 
-class ReservationsView(ListView):
-    template_name = "user-reservations_list.html"
+class ReservationsView(LoginRequiredMixin, ListView):
+    model = HotelBooking
+    template_name = 'reservations_list.html'
+    context_object_name = 'reservations'
 
-    def get_context_data(self, **kwargs):
-        context = super(ReservationsView, self).get_context_data(**kwargs)
-        context['flight'] = Flight.objects.filter(user=self.request.user)
-        context['hotelbooking'] = HotelBooking.objects.filter(user=self.request.user)
-        return context
+    def get_queryset(self):
+        return self.model.objects.all().filter(user=self.request.user)
