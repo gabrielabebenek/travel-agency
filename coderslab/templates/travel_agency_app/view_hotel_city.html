@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <h2>Nazwa hotelu: {{ hotel.name }}</h2>
+
+
+    <h3>Rezerwacje:</h3>
+    <ul class="list-group">
+      {% for reservation in reservations %}
+        <li class="list-group-item">
+          <h4>{{ reservation.hotel_reservation }}</h4>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+<br>
+
+<a href="{% url 'hotels' %}">Go back to list of hotels</a>
+{% endblock %}

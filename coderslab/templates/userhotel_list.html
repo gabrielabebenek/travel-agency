@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+Thank you for making hotel reservation in TraveLove!<br><br>
+Below you can find the details of your reservation:
+<ul>
+    <li><b>Reservation ID: </b>{{ hotelbooking.id }}</li>
+    <li><b>Hotel name: </b>{{ hotelbooking.hotel.name }}</li>
+    <li><b>Start date: </b>{{ hotelbooking.bookingStartDate }}</li>
+    <li><b>End date: </b>{{ hotelbooking.bookingEndDate  }}</li>
+    <li><b>Room for: </b>{{ hotelbooking.room  }}</li>
+</ul>
+{% if hotelbooking.hotel.image %}
+   <img src="{{ hotelbooking.hotel.image.url }}">
+{% endif %}
+<br><br><br>
+<a href="{% url 'explore' %}">View all your reservations</a><br>
+<a href="{% url 'explore' %}">Go back to the homepage</a>
+{% endblock %}

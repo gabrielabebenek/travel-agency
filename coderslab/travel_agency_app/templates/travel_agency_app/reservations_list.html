@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<ul>
+    {% for reservation in reservations_list %}
+        <li>{{ reservations.user }}</li>
+    {% endfor %}
+</ul>
+<br>
+
+{% endblock %}

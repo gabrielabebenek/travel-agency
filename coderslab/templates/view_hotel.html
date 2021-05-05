@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if hotel.image %}
+   <img src="{{ hotel.image.url }}">
+{% endif %}
+<h3>{{ hotel.name }}</h3>
+{% if hotels %}
+    <ul>
+        {% for hotel in hotels %}
+            <li><b>Country:</b> {{ hotel.country }}</li>
+            <li><b>City:</b> {{ hotel.city }}</li>
+            <li><b>Address:</b> {{ hotel.address }}</li>
+            <li><b>Description:</b> {{ hotel.description }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<br>
+<a href="/hotel/{{ hotel.id }}/reserve/">Book room in this hotel</a>
+<br>
+<br>
+<a href="{% url 'hotels' %}">Go back to list of hotels</a>
+{% endblock %}

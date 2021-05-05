@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if object.image %} {{ object.image }} {% endif %}
+    <head>
+
+        <script>
+            $(document).ready(function(){
+  $("input#id_image").on("change", function() {
+    const imageFile = $("input#id_image").get(0).files[0];
+    if (imageFile) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        $("#previewImg").attr("src", reader.result);
+      };
+      reader.readAsDataURL(imageFile);
+    }
+  })
+});
+
+        </script>
+    </head>
+<!--    <form action="" method="POST">-->
+<!--        {% csrf_token %}-->
+<!--        {{ form }}-->
+<!--        <input type="submit" value="Wyslij">-->
+<!--    </form>-->
+
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token%}
+    <div class="mb-3">
+        <label for="{{ form.name.id_for_label }}"><b>Name:</b></label><br>
+        {{ form.name }}
+    </div>
+    <div class="mb-3">
+        <br><label for="{{ form.country.id_for_label }}"><b>Country:</b></label><br>
+        {{ form.country }}
+    </div>
+        <div class="mb-3">
+        <br><label for="{{ form.city.id_for_label }}"><b>City:</b></label><br>
+        {{ form.city }}
+    </div>
+            <div class="mb-3">
+        <br><label for="{{ form.address.id_for_label }}"><b>Address:</b></label><br>
+        {{ form.address }}
+    </div>
+        </div>
+            <div class="mb-3">
+        <br><label for="{{ form.description.id_for_label }}"><b>Description:</b></label><br>
+        {{ form.description }}
+    </div>
+    <div class="mb-3">
+        <br><label for="{{ form.image.id_for_label }}"><b>Image:</b></label>
+        {{ form.image }}
+        <br><img class="img-small" id="previewImg" src="">
+    </div><br>
+    <input type="submit" value="Submit">
+</form>
+
+<br>
+<br>
+<a href="{% url 'hotels' %}">Go back to list of hotels</a>
+{% endblock %}

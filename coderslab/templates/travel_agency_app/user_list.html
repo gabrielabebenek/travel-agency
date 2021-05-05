@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+User list:
+    <ul>
+        {% for user in user_list %}
+            <li>ID: {{user.id}}, Username: {{ user.username }},
+                Email: {{ user.email }}</li>
+        {% endfor %}
+    </ul>
+
+<br>
+<a href="{% url 'add-user' %}">Add user</a><br>
+<a href="{% url 'hotels' %}">Hotels list</a>
+{% endblock %}

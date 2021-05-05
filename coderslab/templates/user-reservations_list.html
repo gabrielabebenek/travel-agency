@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% for f in flight %}
+
+{{ f.fromCountry }} | {{ f.toCountry }}
+
+{% endfor %}
+{% endblock %}

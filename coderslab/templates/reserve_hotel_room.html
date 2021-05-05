@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load bootstrap4 %}       {# import bootstrap4/bootstrap3 #}
+{% bootstrap_css %}         {# Embed Bootstrap CSS #}
+{% bootstrap_javascript jquery='full' %}  {# Embed Bootstrap JS+jQuery #}
+{{ form.media }}            {# Adds date-picker required JS and CSS #}
+{{ hotel.name }}
+<br>
+<br>
+Book a room in this hotel:
+<br>
+<br>
+    <form action="" method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="booking-start-date">Start date:</label>
+        <input type="date" id="booking-start-date" placeholder="Start date" name="booking-start-date">
+      </div>
+          <div class="form-group">
+        <label for="booking-end-date">End date:</label>
+        <input type="date" id="booking-end-date" placeholder="End date" name="booking-end-date">
+      </div>
+      <div class="form-group">
+        <label for="user">user</label>
+        <textarea class="form-control" id="user" placeholder="user" name="user"></textarea>
+      </div>
+          <div class="form-group">
+        <label for="room">room</label>
+        <textarea class="form-control" id="room" placeholder="user" name="room"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Reserve</button>
+    </form>
+    </div>
+<br>
+<a href="{% url 'hotels' %}">Go back to list of hotels</a>
+{% endblock %}

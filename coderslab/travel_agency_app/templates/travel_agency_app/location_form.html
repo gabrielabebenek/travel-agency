@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+Welcome to the TraveLove agency! Explore world with us!<br><br>
+Tell us where you want to go:<br><br>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Wyslij">
+    </form>
+
+{% endblock %}

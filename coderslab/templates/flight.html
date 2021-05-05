@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load bootstrap4 %}       {# import bootstrap4/bootstrap3 #}
+{% bootstrap_css %}         {# Embed Bootstrap CSS #}
+{% bootstrap_javascript jquery='full' %}  {# Embed Bootstrap JS+jQuery #}
+{{ form.media }}            {# Adds date-picker required JS and CSS #}
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Wyslij">
+    </form>
+<br>
+<a href="{% url 'explore' %}">Go back to the home page</a>
+{% endblock %}

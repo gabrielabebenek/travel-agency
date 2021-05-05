@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+Choose the best hotel for you!<br><br>
+Click to see the details:
+<ul>
+    {% for hotel in hotel_list %}
+        <li><a href="{% url 'hotel-details' hotel.pk %}"><b>{{ hotel.name }}</b></a> - {{ hotel.country }}, {{ hotel.city }}</li>
+    {% endfor %}
+</ul>
+<br>
+<a href="{% url 'create-hotel' %}">Add hotel</a><br>
+<a href="{% url 'add-user' %}">Add user</a><br>
+<a href="{% url 'user-list-view' %}">User list view</a><br>
+<a href="{% url 'explore' %}">Go back to the homepage</a>
+{% endblock %}

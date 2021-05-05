@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+Welcome to the TraveLove agency! Explore world with us!<br><br>
+Tell us where you want to go and choose the booking type:<br><br>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit">
+    </form>
+
+{% endblock %}

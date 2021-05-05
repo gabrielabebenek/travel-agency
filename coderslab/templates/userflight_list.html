@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+Thank you for making flight reservation in TraveLove!<br><br>
+Below you can find the details of your flight reservation:
+<ul>
+    <li><b>Reservation ID: </b>{{ flight.id }}</li>
+    <li><b>From: </b>{{ flight.fromCountry }}, {{ flight.fromCity }}</li>
+    <li><b>To: </b>{{ flight.toCountry }}, {{ flight.toCity }}</li>
+    <li><b>Flight start date: </b>{{ flight.startDate }}</li>
+    <li><b>Flight end date: </b>{{ flight.endDate }}</li>
+    <li><b>Class type: </b>{{ flight.classType }}</li>
+
+</ul>
+<br><br><br>
+<a href="{% url 'explore' %}">View all your reservations</a><br>
+<a href="{% url 'explore' %}">Go back to the homepage</a>
+{% endblock %}
