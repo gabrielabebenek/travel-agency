@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect
 from django.views.generic import (
     ListView,
@@ -38,10 +38,13 @@ class HotelView(LoginRequiredMixin, ListView):
     model = Hotel
 
 
-class HotelCreateView(LoginRequiredMixin, CreateView):
+class HotelCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Hotel
     form_class = HotelForm
     success_url = reverse_lazy('hotels')
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
 
 class HotelDetailsView(LoginRequiredMixin, DetailView):
@@ -59,7 +62,6 @@ class ExploreCreateView(LoginRequiredMixin, CreateView):
     model = Explore
     form_class = ExploreForm
     template_name = 'explore.html'
-    # success_url = reverse_lazy('hotels')
 
     def get(self, request, *args, **kwargs):
         context = {'form': self.form_class()}
@@ -72,7 +74,6 @@ class ExploreCreateView(LoginRequiredMixin, CreateView):
             city = form.cleaned_data['city']
             if bookingType == "Hotel":
                 response = redirect('hotels')
-                # response['Location'] += '?city=' + city
                 return response
             elif bookingType == "Flight":
                 return redirect('create-flight')
@@ -115,10 +116,6 @@ class UserHotelReservationView(LoginRequiredMixin, DetailView):
         users = HotelBooking.objects.filter(id=kwargs['object'].pk)
         context = {'users': users}
         return super().get_context_data(**context)
-    # def get(self, request, id):
-    #     hotel = Hotel.objects.get(id=id)
-    #     reservations = hotel.userhotel_set.filter(user_id=1)
-    #     return render(request, "userhotel_list.html", context={"hotel": hotel, "reservations": reservations})
 
 
 class UserFlightReservationView(LoginRequiredMixin, DetailView):
