@@ -4,6 +4,7 @@ from django import forms
 from django.contrib.auth import get_user_model, authenticate, login
 from .models import Hotel, HotelBooking, Explore, Flight
 
+User = get_user_model()
 
 class LoginForm(forms.Form):
     username = forms.CharField()
@@ -58,6 +59,11 @@ class ExploreForm(forms.ModelForm):
 
 class ReserveHotelRoomForm(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+        super(ReserveHotelRoomForm, self).__init__(*args, **kwargs)
+        self.fields['user'].queryset = User.objects.filter(
+            username=self.request.user)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -69,13 +75,19 @@ class ReserveHotelRoomForm(forms.ModelForm):
 
     class Meta:
         model = HotelBooking
-        fields = ('hotel', 'bookingStartDate',  'bookingEndDate', 'room')
+        fields = ('user', 'hotel', 'bookingStartDate',  'bookingEndDate', 'room')
         widgets = {
         'bookingStartDate' : DatePickerInput(format='%Y-%m-%d'),
         'bookingEndDate': DatePickerInput(format='%Y-%m-%d'),
         }
 
 class FlightForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+        super(FlightForm, self).__init__(*args, **kwargs)
+        self.fields['user'].queryset = User.objects.filter(
+            username=self.request.user)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -87,7 +99,7 @@ class FlightForm(forms.ModelForm):
 
     class Meta:
         model = Flight
-        fields = ('fromCountry', 'fromCity',  'toCountry', 'toCity', 'startDate', 'endDate', 'classType')
+        fields = ('user', 'fromCountry', 'fromCity',  'toCountry', 'toCity', 'startDate', 'endDate', 'classType')
         widgets = {
         'startDate' : DatePickerInput(format='%Y-%m-%d'),
         'endDate': DatePickerInput(format='%Y-%m-%d'),

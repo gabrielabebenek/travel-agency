@@ -1,24 +1,18 @@
-from django.contrib.auth import get_user_model, logout
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.shortcuts import render, redirect
-from django.views import generic
 from django.views.generic import (
     ListView,
-    CreateView,
     DetailView,
-    FormView,
-    RedirectView,
     CreateView,
 )
 from django.urls import reverse_lazy, reverse
 from .forms import (
     HotelForm,
     ReserveHotelRoomForm,
-    AddUserForm,
     ExploreForm,
     FlightForm,
-    LoginForm,
 )
 from .models import (
     Hotel,
@@ -29,32 +23,6 @@ from .models import (
 User = get_user_model()
 
 
-# class LoginView(LoginRequiredMixin, FormView):
-#     login_url = '/login/'
-#     form_class = LoginForm
-#     template_name = 'travel_agency_app/loginuser.html'
-#     success_url = reverse_lazy('index')
-#     permission_required = 'auth.change_user'
-#
-#     def form_valid(self, form):
-#         form.login(self.request)
-#         return super().form_valid(form)
-#
-#
-# class LogoutView(RedirectView):
-#     url = reverse_lazy('index')
-#
-#     def get(self, request, *args, **kwargs):
-#         logout(request)
-#         return super().get(request, *args, **kwargs)
-
-# class AddUserView(CreateView):
-#     model = User
-#     form_class = AddUserForm
-#     template_name = 'adduser.html'
-#     success_url = reverse_lazy('user-list-view')
-#
-#
 class SignUpView(CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
@@ -120,6 +88,7 @@ class ReserveHotelRoom(LoginRequiredMixin, CreateView):
 
     def get_form_kwargs(self, *args, **kwargs):
         kwargs = super(ReserveHotelRoom, self).get_form_kwargs(*args, **kwargs)
+        kwargs['request'] = self.request
         return kwargs
 
 
@@ -133,6 +102,7 @@ class FlightCreateView(LoginRequiredMixin, CreateView):
 
     def get_form_kwargs(self, *args, **kwargs):
         kwargs = super(FlightCreateView, self).get_form_kwargs(*args, **kwargs)
+        kwargs['request'] = self.request
         return kwargs
 
 
@@ -168,4 +138,9 @@ class ReservationsView(LoginRequiredMixin, ListView):
     context_object_name = 'reservations'
 
     def get_queryset(self):
-        return self.model.objects.all().filter(user=self.request.user)
+        return self.model.objects.all().filter(user_id=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super(ReservationsView, self).get_context_data(**kwargs)
+        context['flights'] = Flight.objects.filter(user_id=self.request.user)
+        return context

@@ -1,10 +1,35 @@
 {% extends 'base.html' %}
 {% block content %}
+{% if user.is_authenticated %}
+  Hi {{ user.username }}!<br><br>
+{% else %}
+Welcome to the TraveLove agency! Explore world with us!<br><br>
+  <p>You are not logged in</p>
+  <p>Please login or sign up</p>
+  <a href="{% url 'login' %}">Log In</a><br>
+  <a href="{% url 'signup' %}">Sign Up</a>
+{% endif %}
+Your hotels reservations:
 <ul>
     {% for reservation in reservations %}
-        <li>{{ reservation.room }}</li>
+    <li><strong>Hotel:</strong> {{ reservation.hotel }}<br>
+            <strong>Room:</strong> {{ reservation.room }}<br>
+            <strong>Start date:</strong> {{ reservation.bookingStartDate }}<br>
+            <strong>End date: </strong>{{ reservation.bookingEndDate }}</li><br>
+    {% endfor %}
+  </ul>
+Your flights revervations:
+<ul>
+    {% for flight in flights %}
+        <li> <strong>From country: </strong>{{ flight.fromCountry }}<br>
+       <strong> From city:</strong>{{ flight.fromCity }}<br>
+       <strong> To country:</strong> {{ flight.toCountry }}<br>
+       <strong> To city:</strong> {{ flight.toCity }}<br>
+       <strong> Start date: </strong>{{ flight.startDate }}<br>
+      <strong>  End date:</strong> {{ flight.endDate }}<br>
+      <strong>  Class type: </strong>{{ flight.classType }}</li><br>
     {% endfor %}
 </ul>
-<br>
-
+<a href="{% url 'hotels' %}">Go back to hotels list</a><br>
+<a href="{% url 'explore' %}">Go back to the homepage</a>
 {% endblock %}
