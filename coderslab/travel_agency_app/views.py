@@ -29,9 +29,12 @@ class SignUpView(CreateView):
     template_name = 'registration/signup.html'
 
 
-class UserListView(LoginRequiredMixin, ListView):
+class UserListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = User
     template_name = 'user_list.html'
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
 
 class HotelView(LoginRequiredMixin, ListView):
