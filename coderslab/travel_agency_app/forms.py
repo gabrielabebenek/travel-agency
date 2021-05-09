@@ -2,7 +2,7 @@ from bootstrap_datepicker_plus import DatePickerInput
 import datetime
 from django import forms
 from django.contrib.auth import get_user_model, authenticate, login
-from .models import Hotel, HotelBooking, Explore, Flight
+from .models import Hotel, HotelBooking, Explore, Flight, Review
 
 User = get_user_model()
 
@@ -87,7 +87,7 @@ class FlightForm(forms.ModelForm):
         self.request = kwargs.pop('request')
         super(FlightForm, self).__init__(*args, **kwargs)
         self.fields['user'].queryset = User.objects.filter(
-            username=self.request.user)
+        username=self.request.user)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -104,5 +104,17 @@ class FlightForm(forms.ModelForm):
         'startDate' : DatePickerInput(format='%Y-%m-%d'),
         'endDate': DatePickerInput(format='%Y-%m-%d'),
         }
+
+class ReviewForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+        super(ReviewForm, self).__init__(*args, **kwargs)
+        self.fields['user'].queryset = User.objects.filter(
+        username=self.request.user)
+
+    class Meta:
+        model = Review
+        fields = ('user', 'review', 'rating')
 
 

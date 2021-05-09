@@ -13,12 +13,14 @@ from .forms import (
     ReserveHotelRoomForm,
     ExploreForm,
     FlightForm,
+    ReviewForm,
 )
 from .models import (
     Hotel,
     HotelBooking,
     Explore,
     Flight,
+    Review,
 )
 User = get_user_model()
 
@@ -144,3 +146,32 @@ class ReservationsView(LoginRequiredMixin, ListView):
         context = super(ReservationsView, self).get_context_data(**kwargs)
         context['flights'] = Flight.objects.filter(user_id=self.request.user)
         return context
+
+
+class ReviewCreateView(LoginRequiredMixin, CreateView):
+    model = Review
+    form_class = ReviewForm
+    template_name = 'review.html'
+
+    def get_success_url(self):
+        return reverse('user-review')
+                       # , kwargs={'pk': self.object.pk})
+
+    def get_form_kwargs(self, *args, **kwargs):
+        kwargs = super(ReviewCreateView, self).get_form_kwargs(*args, **kwargs)
+        kwargs['request'] = self.request
+        return kwargs
+
+
+class ReviewView(LoginRequiredMixin, ListView):
+    model = Review
+    template_name = 'userreview-list.html'
+    context_object_name = 'reviews'
+
+    def get_queryset(self):
+        return self.model.objects.all().filter(user_id=self.request.user)
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(ReservationsView, self).get_context_data(**kwargs)
+    #     context['flights'] = Flight.objects.filter(user_id=self.request.user)
+    #     return context

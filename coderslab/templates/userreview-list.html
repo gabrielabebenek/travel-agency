@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+  Hi {{ user.username }}!<br><br>
+{% else %}
+Welcome to the TraveLove agency! Explore world with us!<br><br>
+  <p>You are not logged in</p>
+  <p>Please login or sign up</p>
+  <a href="{% url 'login' %}">Log In</a><br>
+  <a href="{% url 'signup' %}">Sign Up</a>
+{% endif %}
+Your reviews:
+<ul>
+    {% for review in reviews %}
+    <li><strong>Review:</strong> {{ review.review }}<br>
+        <strong>Rating:</strong> {{ review.rating }}<br><br>
+    {% endfor %}
+  </ul>
+
+<a href="{% url 'hotels' %}">Go back to hotels list</a><br>
+<a href="{% url 'explore' %}">Go back to the homepage</a>
+{% endblock %}

@@ -67,3 +67,9 @@ class Flight(models.Model):
     startDate = models.DateField()
     endDate = models.DateField()
     classType = models.CharField(max_length=64, choices=CLASS_TYPE)
+
+
+class Review(models.Model):
+    review = models.CharField(max_length=1000)
+    rating = models.IntegerField()
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
