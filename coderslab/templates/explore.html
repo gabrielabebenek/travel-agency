@@ -2,7 +2,7 @@
 
 {% block content %}
 Welcome to the TraveLove agency! Explore world with us!<br><br>
-Tell us where you want to go and choose the booking type:<br><br>
+Tell us if you would like to book a hotel or a flight:<br><br>
     <form action="" method="POST">
         {% csrf_token %}
         {{ form.as_p }}

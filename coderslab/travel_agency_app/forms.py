@@ -54,7 +54,7 @@ class HotelForm(forms.ModelForm):
 class ExploreForm(forms.ModelForm):
     class Meta:
         model = Explore
-        fields = ('continent', 'country', 'city', 'bookingType',)
+        fields = ('bookingType',)
 
 
 class ReserveHotelRoomForm(forms.ModelForm):
@@ -105,6 +105,7 @@ class FlightForm(forms.ModelForm):
         'endDate': DatePickerInput(format='%Y-%m-%d'),
         }
 
+
 class ReviewForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
@@ -115,6 +116,6 @@ class ReviewForm(forms.ModelForm):
 
     class Meta:
         model = Review
-        fields = ('user', 'review', 'rating')
+        fields = ('user', 'hotel', 'rating', 'review', 'date')
 
 

@@ -45,4 +45,6 @@ urlpatterns = [
     path('user-reservations/', travel_agency_views.ReservationsView.as_view(), name='user-reservations'),
     path('review/add', travel_agency_views.ReviewCreateView.as_view(), name='create-review'),
     path('user-review/', travel_agency_views.ReviewView.as_view(), name='user-review'),
+    # url(r'ratings/', include('star_ratings.urls', namespace='ratings')),
+    # path('ratings/', include('star_ratings.urls', namespace='ratings')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

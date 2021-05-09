@@ -1,5 +1,9 @@
+from django.utils import timezone
+
 from django.contrib.auth.models import User
 from django.db import models
+
+
 
 
 class Hotel(models.Model):
@@ -21,9 +25,9 @@ BOOKING_TYPE = (
 
 
 class Explore(models.Model):
-    continent = models.CharField(max_length=64, default='Asia')
-    country = models.CharField(max_length=64, default='Indonesia')
-    city = models.CharField(max_length=64, default='Bali')
+    # continent = models.CharField(max_length=64, default='Asia')
+    # country = models.CharField(max_length=64, default='Indonesia')
+    # city = models.CharField(max_length=64, default='Bali')
     bookingType = models.CharField(
         max_length=64,
         choices=BOOKING_TYPE,
@@ -51,10 +55,10 @@ class HotelBooking(models.Model):
 
 
 CLASS_TYPE = (
-    ('economy', 'economy'),
-    ('premium economy', 'premium economy'),
-    ('business', 'business'),
-    ('first class', 'first class'),
+    ('Economy', 'Economy'),
+    ('Premium economy', 'Premium economy'),
+    ('Business', 'Business'),
+    ('First class', 'First class'),
 )
 
 
@@ -68,8 +72,20 @@ class Flight(models.Model):
     endDate = models.DateField()
     classType = models.CharField(max_length=64, choices=CLASS_TYPE)
 
+RATING_TYPE = (
+    ('1', '*'),
+    ('2', '**'),
+    ('3', '***'),
+    ('4', '****'),
+    ('5', '*****'),
+)
+
 
 class Review(models.Model):
     review = models.CharField(max_length=1000)
-    rating = models.IntegerField()
+    rating = models.CharField(max_length=64, choices=RATING_TYPE)
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    date = models.DateField(default=timezone.now)
+    hotel = models.ForeignKey(Hotel, null=True, blank=True, on_delete=models.CASCADE)
+
+

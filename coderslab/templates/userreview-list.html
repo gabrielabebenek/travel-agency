@@ -12,11 +12,13 @@ Welcome to the TraveLove agency! Explore world with us!<br><br>
 Your reviews:
 <ul>
     {% for review in reviews %}
-    <li><strong>Review:</strong> {{ review.review }}<br>
-        <strong>Rating:</strong> {{ review.rating }}<br><br>
+    <li><b>Hotel: {{ review.hotel }}</b><br>
+        Rating: {{ review.rating }}<br>
+        Review: {{ review.review }}<br>
+        Submission date: {{ review.date }}<br><br>
     {% endfor %}
   </ul>
-
+<a href="{% url 'create-review' %}">Add hotel review</a><br>
 <a href="{% url 'hotels' %}">Go back to hotels list</a><br>
 <a href="{% url 'explore' %}">Go back to the homepage</a>
 {% endblock %}

@@ -76,7 +76,7 @@ class ExploreCreateView(LoginRequiredMixin, CreateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             bookingType = form.cleaned_data['bookingType']
-            city = form.cleaned_data['city']
+            # city = form.cleaned_data['city']
             if bookingType == "Hotel":
                 response = redirect('hotels')
                 return response
@@ -170,8 +170,3 @@ class ReviewView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return self.model.objects.all().filter(user_id=self.request.user)
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(ReservationsView, self).get_context_data(**kwargs)
-    #     context['flights'] = Flight.objects.filter(user_id=self.request.user)
-    #     return context

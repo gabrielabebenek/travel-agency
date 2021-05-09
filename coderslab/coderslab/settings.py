@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'bootstrap_datepicker_plus',
     'travel_agency_app',
+    'star_ratings',
 ]
 
 MIDDLEWARE = [
@@ -136,4 +137,6 @@ STATICFILES_DIRS = (
 LOGIN_REDIRECT_URL = 'home'     # this should coinside with url pattern of login view
 LOGOUT_REDIRECT_URL = 'home'   # same but for logout view
 
+# STAR_RATINGS_RATING_MODEL = 'myapp.MyRating'
+# STAR_RATINGS_OBJECT_ID_PATTERN = '[a-z0-9]{32}'
 # AUTH_USER_MODEL = 'accounts.CustomUser'
