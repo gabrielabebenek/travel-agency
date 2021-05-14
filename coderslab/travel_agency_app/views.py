@@ -1,11 +1,12 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import (
     ListView,
     DetailView,
     CreateView,
+    DeleteView,
 )
 from django.urls import reverse_lazy, reverse
 from .forms import (
@@ -170,3 +171,17 @@ class ReviewView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return self.model.objects.all().filter(user_id=self.request.user)
+
+
+class DeleteHotelReservationView(LoginRequiredMixin, DeleteView):
+    template_name = 'reservations_hotel_delete_list.html'
+    model = HotelBooking
+    context_object_name = 'reservation'
+    success_url = reverse_lazy('user-reservations')
+
+
+class DeleteFlightReservationView(LoginRequiredMixin, DeleteView):
+    template_name = 'reservations_flight_delete_list.html'
+    model = Flight
+    context_object_name = 'flight'
+    success_url = reverse_lazy('user-reservations')

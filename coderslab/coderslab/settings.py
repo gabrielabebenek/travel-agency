@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'bootstrap4',
     'bootstrap_datepicker_plus',
     'travel_agency_app',
-    'star_ratings',
 ]
 
 MIDDLEWARE = [

@@ -7,6 +7,8 @@ Tell us if you would like to book a hotel or a flight:<br><br>
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Submit">
-    </form>
+    </form><br>
+<a href="{% url 'user-reservations' %}">View all your reservations</a><br>
+<a href="{% url 'user-list-view' %}">View users list</a><br>
   <p><a href="{% url 'logout' %}">Log Out</a></p>
 {% endblock %}

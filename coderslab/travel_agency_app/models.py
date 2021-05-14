@@ -4,8 +4,6 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-
-
 class Hotel(models.Model):
     name = models.CharField(max_length=64, default='Hotel')
     country = models.CharField(max_length=64)
@@ -72,6 +70,7 @@ class Flight(models.Model):
     endDate = models.DateField()
     classType = models.CharField(max_length=64, choices=CLASS_TYPE)
 
+
 RATING_TYPE = (
     ('1', '*'),
     ('2', '**'),
@@ -87,5 +86,3 @@ class Review(models.Model):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     date = models.DateField(default=timezone.now)
     hotel = models.ForeignKey(Hotel, null=True, blank=True, on_delete=models.CASCADE)
-
-
