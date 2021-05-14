@@ -47,6 +47,7 @@ urlpatterns = [
     path('user-review/', travel_agency_views.ReviewView.as_view(), name='user-review'),
     path('user-delete-hotel-reservations/<int:pk>/', travel_agency_views.DeleteHotelReservationView.as_view(), name='user-delete-hotel-reservations'),
     path('user-delete-flight-reservations/<int:pk>/', travel_agency_views.DeleteFlightReservationView.as_view(), name='user-delete-flight-reservations'),
+    path('user-delete-hotel-review/<int:pk>/', travel_agency_views.DeleteHotelReviewView.as_view(), name='user-delete-hotel-review'),
     # url(r'ratings/', include('star_ratings.urls', namespace='ratings')),
     # path('ratings/', include('star_ratings.urls', namespace='ratings')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

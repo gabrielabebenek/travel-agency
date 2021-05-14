@@ -16,6 +16,7 @@ Your reviews:
         Rating: {{ review.rating }}<br>
         Review: {{ review.review }}<br>
         Submission date: {{ review.date }}<br><br>
+    <a href="{% url 'user-delete-hotel-review' review.id %}">Delete this review</a><br><br>
     {% endfor %}
   </ul>
 <a href="{% url 'create-review' %}">Add hotel review</a><br>

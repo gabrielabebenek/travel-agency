@@ -65,6 +65,7 @@ class ReserveHotelRoomForm(forms.ModelForm):
         self.fields['user'].queryset = User.objects.filter(
             username=self.request.user)
 
+
     def clean(self):
         cleaned_data = super().clean()
         if cleaned_data['bookingStartDate'] < datetime.date.today():
@@ -80,6 +81,7 @@ class ReserveHotelRoomForm(forms.ModelForm):
         'bookingStartDate' : DatePickerInput(format='%Y-%m-%d'),
         'bookingEndDate': DatePickerInput(format='%Y-%m-%d'),
         }
+
 
 class FlightForm(forms.ModelForm):
 

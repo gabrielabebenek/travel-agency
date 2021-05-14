@@ -8,6 +8,8 @@
     <form action="" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
+    <option value="{{ hotel.pk }}">{{ hotel.name }}</option>
+
         <input type="submit" value="Wyslij">
     </form>
 <br>

@@ -89,6 +89,7 @@ class ReserveHotelRoom(LoginRequiredMixin, CreateView):
     model = HotelBooking
     form_class = ReserveHotelRoomForm
     template_name = 'reserve_hotel_room2.html'
+    hotel = None
 
     def get_success_url(self):
         return reverse('user-hotel', kwargs={'pk': self.object.pk})
@@ -97,6 +98,12 @@ class ReserveHotelRoom(LoginRequiredMixin, CreateView):
         kwargs = super(ReserveHotelRoom, self).get_form_kwargs(*args, **kwargs)
         kwargs['request'] = self.request
         return kwargs
+
+    def get_hotel(self):
+        self.hotel = get_object_or_404(Hotel, pk=self.kwargs.get('pk'))
+        return {
+            'hotel': self.hotel,
+        }
 
 
 class FlightCreateView(LoginRequiredMixin, CreateView):
@@ -185,3 +192,10 @@ class DeleteFlightReservationView(LoginRequiredMixin, DeleteView):
     model = Flight
     context_object_name = 'flight'
     success_url = reverse_lazy('user-reservations')
+
+
+class DeleteHotelReviewView(LoginRequiredMixin, DeleteView):
+    template_name = 'review_hotel_delete_list.html'
+    model = Review
+    context_object_name = 'review'
+    success_url = reverse_lazy('user-review')

@@ -16,7 +16,7 @@ Your hotels reservations:
             <strong>Room:</strong> {{ reservation.room }}<br>
             <strong>Start date:</strong> {{ reservation.bookingStartDate }}<br>
             <strong>End date: </strong>{{ reservation.bookingEndDate }}</li><br>
-    <a href="{% url 'user-delete-hotel-reservations' reservation.id %}">Delete this reservation</a>
+    <a href="{% url 'user-delete-hotel-reservations' reservation.id %}">Delete this reservation</a><br><br>
     {% endfor %}
   </ul>
 Your flights revervations:
